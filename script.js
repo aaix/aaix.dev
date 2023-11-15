@@ -30,7 +30,7 @@ class VideoType {
 
 }
 
-function getSupportedVideoType() {
+async function getVideos() {
     
     /*
     audio codecs:
@@ -51,30 +51,27 @@ function getSupportedVideoType() {
     +---------------+---------------+
     */
 
+    let res = await fetch("https://api.aaix.dev/videos");
+    let body = await res.json();
+    if (!body.success) {
+        console.error("Failed to fetch videos: ", body.data.message);
+    }
 
-    // here use an array bc order matters
-    let videoCodecs = [
-        new VideoType('4K.HDR.webm', 'webm', 'vp09.02.51.10'),
-        new VideoType('4K.HDR.mp4', 'av01.0.13M.10'),
-        new VideoType('1080p.HDR.mp4', 'av01.0.09M.10'),
-        new VideoType('1080p.HDR.webm', 'webm', 'vp09.02.41.10'),
-        new VideoType('1080p.mp4', 'avc1.64002A'),
-        new VideoType('1080p.webm', 'webm', 'vp09.00.41.08')
-    ];
+    let videoAssets = body.data;
+
 
     let supportedVideos = [];
     let supportsHDR = (window.matchMedia("(dynamic-range: high)").matches);
 
-    videoCodecs.forEach(codec => {
-        if (codec.ext.includes('HDR') && !supportsHDR) {
+    videoAssets.forEach(asset => {
+        if (asset.asset.includes('HDR') && !supportsHDR) {
             return;
         }
-        // if bg video can play codec
 
   
 
-        if (bgVideo.canPlayType(`video/${codec.mediaType}; codecs="${codec.videoCodec}, ${codec.audioCodec}"`) != "") {
-            supportedVideos.push(codec);
+        if (bgVideo.canPlayType(`video/${asset.mediaType}; codecs="${asset.videoEncoding}, ${asset.audioEncoding}"`) != "") {
+            supportedVideos.push(asset);
         }
     });
 
@@ -85,14 +82,15 @@ function getSupportedVideoType() {
 
 window.onload = function() {
 
-    let supportedVideos = getSupportedVideoType();
+    let supportedVideos = getVideos().then(supportedVideos => {
 
-    console.log("supported videos: ", supportedVideos);
+        console.log("supported videos: ", supportedVideos);
 
 
 
-    videoSource.src = `https://cdn.aaix.dev/web/ICANTSTOPME.${supportedVideos[0].ext}`;
-    videoSource.type = "video/mp4";
-    bgVideo.load();
-    bgVideo.play();
+        videoSource.src = `https://cdn.aaix.dev/web/${supportedVideos[0].asset}`;
+        videoSource.type = "video/mp4";
+        bgVideo.load();
+        bgVideo.play();
+    });
 };
