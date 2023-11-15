@@ -7,14 +7,26 @@
     <title>aaix</title>
 
     <!-- preload -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" href="https://cdn.aaix.dev/web/ICANTSTOPME.1080p.mp4" type="video/mp4" as="video">
 
     <!-- styles -->
     <link rel="icon" type="image/webp" href="https://cdn.aaix.dev/icon.webp">
     <link rel="stylesheet" href="styles.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
+    <script defer src="script.js"></script>
 </head>
 <body>
-HELLO WORLD !!!!!!<br>
-todo website....<br>
-<a href="https://github.com/aaix">https://github.com/aaix</a>
+    <div class="video-container centered fullscreen">
+        <video autoplay muted loop id="bg-video">
+            <source id="video-source">
+        </video>
+    </div>
+    <div class="centered fullscreen">
+        <div class="icon-container">
+            <div class="title">My Icons</div>
+            <i class="icon fa fa-star"></i>
+            <i class="icon fa fa-volume-xmark" id="mute-button"></i>
+            <i class="icon fa fa-smile"></i>
+        </div>
+    </div>
 </body>

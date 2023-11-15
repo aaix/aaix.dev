@@ -1,4 +1,57 @@
-.body {
-    flex-direction: row;
-    align-content: center;
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* SCREEN WIDTH IS LESS THAN 16/9 HEIGHT */
+@media screen and (max-aspect-ratio: 16/9) {
+    #bg-video {
+        width: auto;
+        height: 100%;
+    }
+}
+/* SCREEN WIDTH IS MORE THAN 16/9 HEIGHT */
+@media screen and (min-aspect-ratio: 16/9) {
+    #bg-video {
+        width: 100%;
+        height: auto;
+    }
+}
+
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-container {
+    text-align: center;
+}
+
+.icon {
+    font-size: 3em;
+    margin: 0.05em;
+    color: #000;
+}
+
+.icon:hover {
+    /* make slightly larger and make pink */
+    /* make it animate as a transition */
+    transform: scale(1.1);
+    font-size: 3.1em;
+    color: #fff;
+}
+
+.title {
+    font-size: 2em;
 }
